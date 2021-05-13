@@ -5,39 +5,78 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    [SerializeField]
-    private float thrustFactor;
-    [SerializeField]
-    private float rotateFactorY;
-    [SerializeField]
-    private float rotateFactorZ;
+    [SerializeField] private float thrustFactor;
+    [SerializeField] private float rotateFactorY;
+    [SerializeField] private float rotateFactorZ;
+    [SerializeField] private AudioClip audioClipThrusters;
+    [SerializeField] private ParticleSystem particleSystemThrusters;
 
+    private AudioSource audioSource;
     private Rigidbody rb;
 
-    // Start is called before the first frame update
-    void Start()
+    // PUBLIC METHODS
+    public void ThrustersOff()
     {
+        if (particleSystemThrusters.isPlaying)
+        {
+            particleSystemThrusters.Stop();
+        }
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
+    }
+
+    // START/UPDATE
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        ProcessInput();
+        ProcessThrust();
+        ProcessRotation();
     }
 
-    private void ProcessInput()
+
+    // THRUST
+    private void ProcessThrust()
     {
-        if (Input.GetKey(KeyCode.W)) 
+        if (Input.GetKey(KeyCode.W))
         {
-            rb.AddRelativeForce(Vector3.up * thrustFactor * Time.deltaTime);
+            ThrustersOn();
+        }
+        else
+        {
+            ThrustersOff();
+        }
+    }
+
+    private void ThrustersOn()
+    {
+        if (!particleSystemThrusters.isPlaying)
+        {
+            particleSystemThrusters.Play();
+        }
+        if (!audioSource.isPlaying)
+        {
+            audioSource.PlayOneShot(audioClipThrusters);
         }
 
+        rb.AddRelativeForce(Vector3.up * thrustFactor * Time.deltaTime);
+    }
+
+    // ROTATION
+    private void ProcessRotation()
+    {
         if (Input.GetKey(KeyCode.A))
         {
             ApplyRotation(Vector3.forward);
         }
-        else if (Input.GetKey(KeyCode.D))
+
+        if (Input.GetKey(KeyCode.D))
         {
             ApplyRotation(Vector3.back);
         }

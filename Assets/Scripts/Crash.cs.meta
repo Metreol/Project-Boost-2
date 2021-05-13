@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 9545026ba1104904c8824c7c4f0d9ce8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - audioCrash: {fileID: 8300000, guid: 7fb8fa81d5625094e8c6fe5ea79afaae, type: 3}
+  - audioWin: {fileID: 8300000, guid: 261029466c4675341987a2b89128a58b, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
